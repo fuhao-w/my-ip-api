@@ -1,6 +1,7 @@
 export default function handler(request, response) {
   // Vercel 会将客户端的 IP 地址放在 'x-forwarded-for' 请求头中
-  const ip = request.headers['x-forwarded-for'] || request.socket.remoteAddress;
+  const forwarded = request.headers['x-forwarded-for'];
+  const ip = forwarded ? forwarded.split(',')[0].trim() : request.socket.remoteAddress;
   
   // 设置响应头为 JSON
   response.setHeader('Content-Type', 'application/json');
